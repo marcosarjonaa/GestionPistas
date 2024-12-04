@@ -18,9 +18,11 @@
 
         <form method="post" th:object="${horario}" class="needs-validation" novalidate>
             
-            <input type="number" hidden name="id" th:value="${horario.id}" />
+            <input type="number" hidden name="id" th:field="*{id}" th:value="${horario.id}" />
         
-            <select th:field="*{horario.instalacion}" 
+            <select th:field="*{instalacion}" 
+                name="instalacion"
+                id="instalacion"
                 th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null">
                 <option th:each="instalacion : ${instalaciones}" 
                     th:value="${instalacion.id}" 
@@ -29,22 +31,20 @@
 
             <div class="mb-3">
                 <label for="horaInicio" class="form-label">Hora inicio</label>
-                <input type="text" 
+                <input type="time" 
                        id="horaInicio" 
                        name="horaInicio" 
-                       class="form-control" 
-                       th:value="${horario.horaInicio}" 
-                       th:field="*{horaInicio}"
+                       class="form-control"
+                       th:value="*{horaInicio}"
                        th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null" />
             </div>
             <div class="mb-3">
                 <label for="horaFin" class="form-label">Hora fin</label>
-                <input type="text" 
+                <input type="time" 
                        id="horaFin" 
                        name="horaFin" 
-                       class="form-control" 
-                       th:value="${horario.horaFin}" 
-                       th:field="*{horaFin}"
+                       class="form-control"
+                       th:value="*{horaFin}"                       
                        th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null" />
             </div>
         
