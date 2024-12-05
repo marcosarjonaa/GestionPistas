@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.iesvdc.acceso.pistasdeportivas.modelos.Horario;
+import com.iesvdc.acceso.pistasdeportivas.modelos.Instalacion;
 import com.iesvdc.acceso.pistasdeportivas.repos.RepoHorario;
 import com.iesvdc.acceso.pistasdeportivas.repos.RepoInstalacion;
 
@@ -36,10 +37,35 @@ public class ControHorario {
     public String getHorarios(
         Model model,
         @PageableDefault(size = 10, sort = "id") Pageable pageable) {
+
         Page<Horario> page = repoHorario.findAll(pageable);
         model.addAttribute("page", page);
         model.addAttribute("horarios", page.getContent());
+        model.addAttribute("instalaciones", repoInstalacion.findAll());
         return "horarios/horarios";
+    }
+
+    @GetMapping("/instalacion/{id}")
+    public String getHorariosByInstalacion(
+        @PathVariable @NonNull Long id,
+        Model model,
+        @PageableDefault(size = 10, sort = "id") Pageable pageable) {
+
+        Optional<Instalacion> insOptional = repoInstalacion.findById(id);
+
+        if (insOptional.isPresent()) {
+            Page<Horario> page = repoHorario.findByInstalacion(insOptional.get(), pageable);
+            model.addAttribute("page", page);
+            model.addAttribute("horarios", page.getContent());
+            model.addAttribute("instalaciones", repoInstalacion.findAll());
+            model.addAttribute("instalacion", insOptional.get());
+            return "horarios/horarios";
+        } else {
+            model.addAttribute("mensaje", "La instalación no existe");
+            model.addAttribute("titulo", "Error filtrando por instalación.");
+            return "/error";
+        }
+
     }
 
     // formulario añadir un horario a una instalación
