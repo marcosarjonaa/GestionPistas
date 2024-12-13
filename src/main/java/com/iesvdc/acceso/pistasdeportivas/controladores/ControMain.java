@@ -2,7 +2,8 @@ package com.iesvdc.acceso.pistasdeportivas.controladores;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 
 
@@ -18,6 +19,20 @@ public class ControMain {
     public String getError() {
         return "error";
     }
+
+    @GetMapping("/acerca")
+    public String acercade() {
+        return "acercade";
+    }
     
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+    
+    @GetMapping("/denegado")
+    public String accesoDenegado() {
+        return "login";
+    }
 
 }
