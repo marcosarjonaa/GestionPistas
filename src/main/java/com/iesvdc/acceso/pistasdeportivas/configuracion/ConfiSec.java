@@ -37,7 +37,8 @@ public class ConfiSec {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean SecurityFilterChain filtro(HttpSecurity httpSec) throws Exception {
+    @Bean 
+    public SecurityFilterChain filtro(HttpSecurity httpSec) throws Exception {
 
         return httpSec.authorizeHttpRequests(
             (request) -> request
