@@ -50,7 +50,7 @@ public class ConfiSec {
                     "/horario/**", "/instalacion/**")
                     .hasAuthority("ADMIN")
                 .requestMatchers(
-                    "/mis-datos")
+                    "/mis-datos/**", "/mis-datos/*/**" )
                     .authenticated())
                 .exceptionHandling((exception)-> exception.
                     accessDeniedPage("/denegado") )
