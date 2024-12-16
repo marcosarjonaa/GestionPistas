@@ -44,18 +44,21 @@ public class ConfiSec {
             (request) -> request
                 .requestMatchers(
                     "/webjars/**", "/img/**", "/login", 
-                    "/logout", "/acercade", "/denegado")
+                    "/logout", "/acerca", "/denegado")
                     .permitAll()
                 .requestMatchers(
                     "/horario/**", "/instalacion/**")
-                    .hasAuthority("ADMIN"))
+                    .hasAuthority("ADMIN")
+                .requestMatchers(
+                    "/mis-datos")
+                    .authenticated())
                 .exceptionHandling((exception)-> exception.
-                                accessDeniedPage("/denegado") )
+                    accessDeniedPage("/denegado") )
                 .formLogin((formLogin) -> formLogin
                     .loginPage("/login")
                     .permitAll())
-                .rememberMe(
-                    Customizer.withDefaults())
+                //.rememberMe(
+                //    Customizer.withDefaults())
                 .logout((logout) -> logout
                     .invalidateHttpSession(true)
                     .logoutSuccessUrl("/")

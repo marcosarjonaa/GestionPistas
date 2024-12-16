@@ -32,7 +32,7 @@ public class ControMain {
     
     @GetMapping("/denegado")
     public String accesoDenegado() {
-        return "login";
+        return "denegado";
     }
 
 }
