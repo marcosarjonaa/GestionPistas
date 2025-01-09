@@ -5,7 +5,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,7 +28,6 @@ public class ConfiSec {
             "from usuario where username = ?")
         .authoritiesByUsernameQuery("select username, tipo as 'authority' "+
             "from usuario where username = ?" );
-            
     }
 
     @Bean
@@ -39,7 +37,6 @@ public class ConfiSec {
 
     @Bean 
     public SecurityFilterChain filtro(HttpSecurity httpSec) throws Exception {
-
         return httpSec.authorizeHttpRequests(
             (request) -> request
                 .requestMatchers(
@@ -47,7 +44,7 @@ public class ConfiSec {
                     "/logout", "/acerca", "/denegado")
                     .permitAll()
                 .requestMatchers(
-                    "/horario/**", "/instalacion/**")
+                    "/horario/**", "/instalacion/**", "/reservas/**")
                     .hasAuthority("ADMIN")
                 .requestMatchers(
                     "/mis-datos/**", "/mis-datos/*/**" )
