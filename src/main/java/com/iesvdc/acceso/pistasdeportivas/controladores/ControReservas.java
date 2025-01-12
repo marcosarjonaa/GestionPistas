@@ -1,9 +1,9 @@
 package com.iesvdc.acceso.pistasdeportivas.controladores;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.lang.NonNull;
@@ -32,20 +32,15 @@ public class ControReservas {
     public String getReservas(
         Model model,
         @PageableDefault(size = 10, sort = "id") Pageable pageable) {
-
-        Page<Reserva> page = repoReserva.findAll(pageable);
-        model.addAttribute("page", page);
-        model.addAttribute("reservas", page.getContent());
-        model.addAttribute("instalaciones", repoInstalacion.findAll());
+        List<Reserva> reservas = repoReserva.findAll();
+        model.addAttribute("reservas", reservas);
         return "reservas/reservas";
     }
 
-    // formulario añadir un horario a una instalación
     @GetMapping("/add")
     public String addReserva(Model modelo) {
         modelo.addAttribute("reservas", new Reserva());
         modelo.addAttribute("operacion", "ADD");
-        modelo.addAttribute("instalaciones", repoInstalacion.findAll());
         return "/reservas/add";
     }
 
@@ -58,9 +53,7 @@ public class ControReservas {
 
     // formulario editar un horario
     @GetMapping("/edit/{id}")
-    public String editReserva( 
-        @PathVariable @NonNull Long id,
-        Model modelo) {
+    public String editReserva(@PathVariable @NonNull Long id, Model modelo) {
 
         Optional<Reserva> oReserva = repoReserva.findById(id);
         if (oReserva.isPresent()) {
@@ -68,7 +61,7 @@ public class ControReservas {
             modelo.addAttribute("operacion", "EDIT");
             return "/reserva/add";
         } else {
-            modelo.addAttribute("mensaje", "La instalación no exsiste");
+            modelo.addAttribute("mensaje", "La reserva no exsiste");
             modelo.addAttribute("titulo", "Error editando instalación.");
             return "/error";
         }
@@ -83,19 +76,15 @@ public class ControReservas {
 
     // formulario borrar
     @GetMapping("/del/{id}")
-    public String delReserva( 
-        @PathVariable @NonNull Long id,
-        Model modelo) {
-
+    public String delReserva(@PathVariable @NonNull Long id, Model modelo) {
         Optional<Reserva> oReserva = repoReserva.findById(id);
         if (oReserva.isPresent()) {
             modelo.addAttribute("operacion", "DEL");
-            modelo.addAttribute("instalaciones", repoInstalacion.findAll());
             modelo.addAttribute("Reserva", oReserva.get());
             return "/reservas/add";
         } else {
-            modelo.addAttribute("mensaje", "La instalación no exsiste");
-            modelo.addAttribute("titulo", "Error borrando instalación.");
+            modelo.addAttribute("mensaje", "La reserva no exsiste");
+            modelo.addAttribute("titulo", "Error borrando reserva.");
             return "/error";
         }
     }
