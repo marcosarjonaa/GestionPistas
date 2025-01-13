@@ -57,6 +57,22 @@
                                     <li><a class="nav-link text-white" href="/reservas/add">Alta</a></li>
                                 </ul>
                             </li>
+
+
+
+                            <li class="nav-item">
+        
+                                <a class="nav-link text-white dropdown-toggle" href="#" id="misreservasDropdown" data-bs-toggle="collapse" data-bs-target="#misreservasMenu" aria-expanded="false">
+                                    <i class="fa-solid fa-calendar"></i> |  Mis Reservas
+                                </a>
+                                <ul class="collapse list-unstyled ps-3" id="misreservasMenu">
+                                    <li><a class="nav-link text-white" href="/mis-reservas">Listar</a></li>
+                                    <li><a class="nav-link text-white" href="/mis-reservas/add">Alta</a></li>
+                                </ul>
+                            </li>
+
+
+
                             <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                                 <!-- SOLO ADMIN -->
                                 <a class="nav-link text-white dropdown-toggle" href="#" id="usuariosDropdown" data-bs-toggle="collapse" data-bs-target="#usuariosMenu" aria-expanded="false">
