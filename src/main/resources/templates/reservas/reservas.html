@@ -3,12 +3,12 @@
 <head th:replace="plantilla/fragmentos.html :: headfiles">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Listar Reservas</title>
 </head>
 <body>
     <div class="container-fluid">    
     <div th:replace="plantilla/fragmentos.html :: navigation"></div>
-    <h3>Instalaciones</h3>
+    <h3>Reservas</h3>
     <table class="table">
         <thead>
             <tr>
@@ -33,8 +33,8 @@
                 <td> <a class="btn btn-success" th:href="|reservas/edit/${reserva.id}|"> editar </a> </td>
                 <td> <a class="btn btn-danger" th:href="|reservas/del/${reserva.id}|"> borrar </a> </td>
             </tr>            
-        </tbody>        
-    </table>    
+        </tbody>
+    </table>
     <div th:replace="plantilla/fragmentos.html :: footer"></div>
     </div>
 </body>

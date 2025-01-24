@@ -18,10 +18,28 @@
             </h3>
             <form method="post" th:object="${reserva}" class="needs-validation" novalidate>
                 <input type="number" hidden name="id" th:field="*{id}" th:value="${reserva.id}" />
-                <select class="form-select" th:field="*{reserva}" name="reserva" id="reserva"
-                th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null">
-                    <option th:each="reserva : ${reservas}" th:value="${reserva.id}" th:attr="disabled"
-                        th:text="${reserva.usario.username}"></option>
+
+                <select class="form-select" th:field="*{usuario.id}" name="usuario" id="usuario"
+                    th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null">
+                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}"
+                        th:text="${usuario.username}"></option>
+                </select>
+                <br/>
+            
+                <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input type="date" id="fecha" name="fecha" class="form-control" th:value="*{fecha}"
+                        th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null" />
+                </div>
+                
+                <select class="form-select" 
+                        th:field="*{horario.id}" 
+                        id="horario" 
+                        th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null">
+                    <option th:each="horario : ${horarios}"
+                            th:value="${horario.id}" 
+                            th:text="${horario.instalacion.nombre} + ':  ' + ${horario.horaInicio} + ' : ' + ${horario.horaFin}">
+                    </option>
                 </select>
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
