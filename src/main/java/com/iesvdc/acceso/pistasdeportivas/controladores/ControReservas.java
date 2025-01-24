@@ -10,13 +10,20 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.iesvdc.acceso.pistasdeportivas.modelos.Horario;
 import com.iesvdc.acceso.pistasdeportivas.modelos.Reserva;
+import com.iesvdc.acceso.pistasdeportivas.repos.RepoHorario;
 import com.iesvdc.acceso.pistasdeportivas.repos.RepoInstalacion;
 import com.iesvdc.acceso.pistasdeportivas.repos.RepoReserva;
+import com.iesvdc.acceso.pistasdeportivas.repos.RepoUsuario;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/reservas")
@@ -26,7 +33,13 @@ public class ControReservas {
     RepoReserva repoReserva;
 
     @Autowired
+    RepoUsuario repoUsuario;
+
+    @Autowired
     RepoInstalacion repoInstalacion;
+
+    @Autowired
+    RepoHorario repoHorario;
 
     @GetMapping("")
     public String getReservas(
@@ -39,48 +52,54 @@ public class ControReservas {
 
     @GetMapping("/add")
     public String addReserva(Model modelo) {
-        modelo.addAttribute("reservas", new Reserva());
+        modelo.addAttribute("reserva", new Reserva());
         modelo.addAttribute("operacion", "ADD");
+        modelo.addAttribute("usuarios", repoUsuario.findAll());
+        modelo.addAttribute("horarios", repoHorario.findAll());
+        modelo.addAttribute("instalaciones", repoInstalacion.findAll());
         return "/reservas/add";
     }
 
     @PostMapping("/add")
     public String addReserva(
-        @ModelAttribute("Reserva") Reserva reserva)  {
+        @ModelAttribute("reserva") Reserva reserva)  {
         repoReserva.save(reserva);
-        return "redirect:/reserva";
+        return "redirect:/reservas";
     }
 
     // formulario editar un horario
     @GetMapping("/edit/{id}")
     public String editReserva(@PathVariable @NonNull Long id, Model modelo) {
-
         Optional<Reserva> oReserva = repoReserva.findById(id);
         if (oReserva.isPresent()) {
             modelo.addAttribute("reserva", oReserva.get());
             modelo.addAttribute("operacion", "EDIT");
-            return "/reserva/add";
+            modelo.addAttribute("horarios", repoHorario.findAll());
+            modelo.addAttribute("usuarios", repoUsuario.findAll());
+            return "/reservas/add";
         } else {
             modelo.addAttribute("mensaje", "La reserva no exsiste");
-            modelo.addAttribute("titulo", "Error editando instalación.");
+            modelo.addAttribute("titulo", "Error editando reserva.");
             return "/error";
         }
     }
 
     @PostMapping("/edit/{id}")
-    public String editHorario(
-        @ModelAttribute("Reserva") Reserva reserva)  {
+    public String editReserva(
+        @ModelAttribute("reserva") Reserva reserva)  {
         repoReserva.save(reserva);
-        return "redirect:/reserva";
+        return "redirect:/reservas";
     }
 
-    // formulario borrar
+
     @GetMapping("/del/{id}")
     public String delReserva(@PathVariable @NonNull Long id, Model modelo) {
         Optional<Reserva> oReserva = repoReserva.findById(id);
         if (oReserva.isPresent()) {
+            modelo.addAttribute("reserva", oReserva.get());
             modelo.addAttribute("operacion", "DEL");
-            modelo.addAttribute("Reserva", oReserva.get());
+            modelo.addAttribute("horarios", repoHorario.findAll());
+            modelo.addAttribute("usuarios", repoUsuario.findAll());
             return "/reservas/add";
         } else {
             modelo.addAttribute("mensaje", "La reserva no exsiste");
@@ -91,9 +110,9 @@ public class ControReservas {
 
     @PostMapping("/del/{id}")
     public String delReserva(
-        @ModelAttribute("Reserva") Reserva reserva)  {
+        @ModelAttribute("reserva") Reserva reserva)  {
         repoReserva.delete(reserva);
-        return "redirect:/reserva";
+        return "redirect:/reservas";
     }
     
 }
