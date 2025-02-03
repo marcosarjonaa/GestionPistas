@@ -1,5 +1,6 @@
 package com.iesvdc.acceso.pistasdeportivas.controladores;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.iesvdc.acceso.pistasdeportivas.modelos.Horario;
 import com.iesvdc.acceso.pistasdeportivas.modelos.Reserva;
 import com.iesvdc.acceso.pistasdeportivas.repos.RepoHorario;
@@ -53,6 +53,10 @@ public class ControReservas {
     @GetMapping("/add")
     public String addReserva(Model modelo) {
         modelo.addAttribute("reserva", new Reserva());
+        LocalDate fecha = LocalDate.now();
+        LocalDate fechaMax = fecha.plusDays(7);
+        modelo.addAttribute("fecha", fecha);
+        modelo.addAttribute("fechaMax", fechaMax);
         modelo.addAttribute("operacion", "ADD");
         modelo.addAttribute("usuarios", repoUsuario.findAll());
         modelo.addAttribute("horarios", repoHorario.findAll());
@@ -73,6 +77,9 @@ public class ControReservas {
         Optional<Reserva> oReserva = repoReserva.findById(id);
         if (oReserva.isPresent()) {
             modelo.addAttribute("reserva", oReserva.get());
+            LocalDate fecha = oReserva.get().getFecha();
+            modelo.addAttribute("fecha", fecha);
+            modelo.addAttribute("fechaMax", fecha);
             modelo.addAttribute("operacion", "EDIT");
             modelo.addAttribute("horarios", repoHorario.findAll());
             modelo.addAttribute("usuarios", repoUsuario.findAll());
