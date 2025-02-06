@@ -20,6 +20,8 @@ public class MisReservas {
     private Long id;
     
     @ManyToOne
+    private Usuario usuario;
+    @ManyToOne
     private Horario horario;
     private LocalDate fecha;
 }

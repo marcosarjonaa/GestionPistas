@@ -2,7 +2,7 @@
 
 INSERT INTO usuario (id, username, password, email, enabled, tipo) VALUES(2,	'pepillo',	'$2a$10$zlD33q.JAxrRPsUGYGY7tedH/dQUn2MmlxQzjO7Y.oqK6rOjJdueq',	'pepe@gmail.com', 1, 'ADMIN');
 INSERT INTO usuario (id, username, password, email, enabled, tipo) VALUES(5,	'admin',	'$2a$10$hWkDEd0V0QgmiffgPcSkoe1.OMq5ew.wl7OFBMqii5XkfxtIwzZ92',	'admin@correo.com', 1, 'ADMIN');
-INSERT INTO usuario (id, username, password, email, enabled, tipo) VALUES(7,	'obijuan',	'$2a$10$fXr4dWgx1hiIglBbJvsffORJ5aC1xBgN3QOs2IkwsPmtYACOxcgWG',	'darkside@starwars.com', 1, 'ADMIN');
+INSERT INTO usuario (id, username, password, email, enabled, tipo) VALUES(7,	'obijuan',	'$2a$10$jejqNNQ327k5MmBZhR63j.FRboHwPWhCAiruIk8I1/TPDeYLb4IzC',	'darkside@starwars.com', 1, 'ADMIN');
 INSERT INTO usuario (id, username, password, email, enabled, tipo) VALUES(13,	'gerente',	'$2a$10$hWkDEd0V0QgmiffgPcSkoe1.OMq5ew.wl7OFBMqii5XkfxtIwzZ92',	'gerencia@vdc.com', 1, 'ADMIN');
 
 -- INSERT INTO usuario_rol (authority, user_username) VALUES ('ADMIN', 'obijuan');
