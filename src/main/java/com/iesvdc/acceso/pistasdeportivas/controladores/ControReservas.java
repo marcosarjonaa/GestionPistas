@@ -100,7 +100,7 @@ public class ControReservas {
         if (reservaExistente) {
             return "redirect:/error";
         }
-        repoReserva.save(reserva);
+        repoReserva.save(reserva); 
         return "redirect:/reservas";
     }
 

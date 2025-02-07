@@ -123,7 +123,7 @@ parámetros disponibles. Como la fecha, la instalación, el horario y el usuario
 
 En caso de que sea editar, pues te carga los datos de la propia reserva y puedes modificarlos. 
 
-Y en el último caso, eliminar. te deshabilita todo para que veas el contenido de los input para poder deshabilitarlo.
+Y en el último caso, eliminar. Te deshabilita todo para que veas el contenido de los input para poder deshabilitarlo.
 
 |   Rutas   |   ¿Qué hace?  |
 |-----------|---------------|
