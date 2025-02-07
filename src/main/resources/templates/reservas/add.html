@@ -28,7 +28,7 @@
             
                 <div class="mb-3">
                     <label for="fecha" class="form-label">Fecha</label>
-                    <input type="date" min="${min}" max={max} id="fecha" name="fecha" class="form-control" th:value="*{fecha}"
+                    <input type="date" th:min="${min}" th:max="${max}" id="fecha" name="fecha" class="form-control" th:value="*{fecha}"
                         th:attr="disabled=${operacion} == 'DEL' ? 'disabled' : null" />
                 </div>
                 

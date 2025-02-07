@@ -69,6 +69,10 @@ public class ControMReservas {
     @GetMapping("/add")
     public String addReserva(Model modelo) {
         Usuario usuarioLogueado = getLoggedUser();
+        LocalDate fecha = LocalDate.now();
+        LocalDate fechaMax = fecha.plusDays(14);
+        modelo.addAttribute("min", fecha);
+        modelo.addAttribute("max", fechaMax);
         modelo.addAttribute("loggedUser", usuarioLogueado);
         modelo.addAttribute("reserva", new Reserva());
         modelo.addAttribute("operacion", "ADD");
@@ -127,7 +131,7 @@ public class ControMReservas {
             return "redirect:/mis-reservas?error=La+fecha+debe+estar+entre+hoy+y+dos+semanas+adelante.";
         }
 
-        boolean reservaExistente = repoMReserva.existsByUsuarioAndFecha(usuario, reserva.getFecha());
+        boolean reservaExistente = repoMReserva.existsByUsuarioAndFechaAndHorario(usuario, reserva.getFecha(), reserva.getHorario());
         if (reservaExistente) {
             return "redirect:/mis-reservas?error=Ya+existe+una+reserva+para+esa+fecha.";
         }
@@ -161,10 +165,9 @@ public class ControMReservas {
 
     @PostMapping("/del/{id}")
     public String delReserva(@ModelAttribute("reserva") Reserva reserva) {
-        if (!reserva.getFecha().isAfter(LocalDate.now())) {
+        if (reserva.getFecha().isBefore(LocalDate.now())) {
             return "redirect:/mis-reservas?error=No+se+puede+eliminar+una+reserva+pasada+o+del+dia+actual.";
         }
-
         repoReserva.delete(reserva);
         return "redirect:/mis-reservas";
     }

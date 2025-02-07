@@ -54,9 +54,9 @@ public class ControReservas {
     public String addReserva(Model modelo) {
         modelo.addAttribute("reserva", new Reserva());
         LocalDate fecha = LocalDate.now();
-        LocalDate fechaMax = fecha.plusDays(7);
-        modelo.addAttribute("fecha", fecha);
-        modelo.addAttribute("fechaMax", fechaMax);
+        LocalDate fechaMax = fecha.plusDays(14);
+        modelo.addAttribute("min", fecha);
+        modelo.addAttribute("max", fechaMax);
         modelo.addAttribute("operacion", "ADD");
         modelo.addAttribute("usuarios", repoUsuario.findAll());
         modelo.addAttribute("horarios", repoHorario.findAll());
@@ -78,8 +78,8 @@ public class ControReservas {
         if (oReserva.isPresent()) {
             modelo.addAttribute("reserva", oReserva.get());
             LocalDate fecha = oReserva.get().getFecha();
-            modelo.addAttribute("fecha", fecha);
-            modelo.addAttribute("fechaMax", fecha);
+            modelo.addAttribute("min", fecha);
+            modelo.addAttribute("max", fecha);
             modelo.addAttribute("operacion", "EDIT");
             modelo.addAttribute("horarios", repoHorario.findAll());
             modelo.addAttribute("usuarios", repoUsuario.findAll());
