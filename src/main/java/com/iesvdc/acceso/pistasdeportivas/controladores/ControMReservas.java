@@ -69,6 +69,10 @@ public class ControMReservas {
     @GetMapping("/add")
     public String addReserva(Model modelo) {
         Usuario usuarioLogueado = getLoggedUser();
+        LocalDate fecha = LocalDate.now();
+        LocalDate fechaMax = fecha.plusDays(14);
+        modelo.addAttribute("min", fecha);
+        modelo.addAttribute("max", fechaMax);
         modelo.addAttribute("loggedUser", usuarioLogueado);
         modelo.addAttribute("reserva", new Reserva());
         modelo.addAttribute("operacion", "ADD");
