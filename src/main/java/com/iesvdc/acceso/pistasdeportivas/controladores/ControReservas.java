@@ -11,6 +11,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.iesvdc.acceso.pistasdeportivas.modelos.Horario;
 import com.iesvdc.acceso.pistasdeportivas.modelos.Reserva;
 import com.iesvdc.acceso.pistasdeportivas.repos.RepoHorario;
@@ -54,7 +56,7 @@ public class ControReservas {
     public String addReserva(Model modelo) {
         modelo.addAttribute("reserva", new Reserva());
         LocalDate fecha = LocalDate.now();
-        LocalDate fechaMax = fecha.plusDays(14);
+        LocalDate fechaMax = fecha.plusDays(7);
         modelo.addAttribute("min", fecha);
         modelo.addAttribute("max", fechaMax);
         modelo.addAttribute("operacion", "ADD");
@@ -77,9 +79,9 @@ public class ControReservas {
         Optional<Reserva> oReserva = repoReserva.findById(id);
         if (oReserva.isPresent()) {
             modelo.addAttribute("reserva", oReserva.get());
-            LocalDate fecha = oReserva.get().getFecha();
+            LocalDate fecha = LocalDate.now();
             modelo.addAttribute("min", fecha);
-            modelo.addAttribute("max", fecha);
+            modelo.addAttribute("max", fecha.plusDays(7));
             modelo.addAttribute("operacion", "EDIT");
             modelo.addAttribute("horarios", repoHorario.findAll());
             modelo.addAttribute("usuarios", repoUsuario.findAll());
@@ -94,6 +96,10 @@ public class ControReservas {
     @PostMapping("/edit/{id}")
     public String editReserva(
         @ModelAttribute("reserva") Reserva reserva)  {
+        boolean reservaExistente = repoReserva.existsByUsuarioAndFechaAndHorario(reserva.getUsuario(), reserva.getFecha(), reserva.getHorario());
+        if (reservaExistente) {
+            return "redirect:/error";
+        }
         repoReserva.save(reserva);
         return "redirect:/reservas";
     }
